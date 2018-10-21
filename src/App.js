@@ -5,7 +5,6 @@ import FilterTable from './components/FilterTable';
 import Pagination from './components/FilterTable/Pagination';
 
 const DATA_URL = './api/v1/car/?format=json';
-const DATA_URL_LOCAL = 'http://localhost/api/v1/car/?format=json';
 
 /*
 * Since it's my first react app, I have done a bit of research to see how
@@ -32,7 +31,7 @@ class App extends Component {
     }
 
     fetchData(direction) {
-        const data_url = direction && this.state.meta[direction] ? this.state.meta[direction] : DATA_URL_LOCAL;
+        const data_url = direction && this.state.meta[direction] ? this.state.meta[direction] : DATA_URL;
 
         fetch(data_url)
             .then(response => {
