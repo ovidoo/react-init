@@ -9,28 +9,18 @@ class Pagination extends React.Component {
     }
 
     handlePagination(e) {
-        fetch(this.props.meta[e.target.name])
-            .then(response => {
-                return response.json();
-            })
-            .then(res => {
-                this.props.onPaginationChange(res);
-            })
-            .catch((error) => {
-                console.log('AHHH! An Error!', error);
-            });
-
+        this.props.onPaginationChange(e.target.name);
     }
 
     render() {
 
         return (
             <form>
-                <button style={{padding: '20px', marginRight: '10px'}}
+                <button style={{padding: '20px', marginRight: '10px', display: this.props.meta.previous ? 'inline' : 'none'}}
                         type="button"
                         name="previous"
                         onClick={this.handlePagination}>Previous</button>
-                <button style={{padding: '20px'}}
+                <button style={{padding: '20px', display: this.props.meta.next ? 'inline' : 'none'}}
                         type="button"
                         name="next"
                         onClick={this.handlePagination}>Next</button>

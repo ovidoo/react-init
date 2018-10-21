@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import FilterTable from './components/FilterTable';
+import Pagination from './components/FilterTable/Pagination';
 
 const DATA_URL = './api/v1/car/?format=json';
 const DATA_URL_LOCAL = 'http://localhost/api/v1/car/?format=json';
@@ -9,12 +10,17 @@ const DATA_URL_LOCAL = 'http://localhost/api/v1/car/?format=json';
 /*
 * Since it's my first react app, I have done a bit of research to see how
 * the code should be structured. So I discovered there's nothing better than official docs.
-* https://reactjs.org/docs/thinking-in-react.html
 * Coming from Angular world, man! I envy that type of official documentation
 * They even teach you how to think as a dev (o_O)
 * */
 
 class App extends Component {
+
+    constructor() {
+        super();
+        this.handlePaginationChange = this.handlePaginationChange.bind(this);
+        this.fetchData = this.fetchData.bind(this);
+    }
 
     state = {
         meta: {},
@@ -22,7 +28,13 @@ class App extends Component {
     };
 
     componentDidMount() {
-        fetch(DATA_URL_LOCAL)
+        this.fetchData();
+    }
+
+    fetchData(direction) {
+        const data_url = direction && this.state.meta[direction] ? this.state.meta[direction] : DATA_URL_LOCAL;
+
+        fetch(data_url)
             .then(response => {
                 return response.json();
             })
@@ -37,13 +49,18 @@ class App extends Component {
             });
     }
 
+    handlePaginationChange(direction) {
+        this.fetchData(direction)
+    }
 
     render() {
         return (
             <div className="App">
                 <header className="App-header">
-                    <FilterTable meta={this.state.meta} cars={this.state.cars} />
-                    <img src={logo} className="App-logo" alt="logo"/>
+                    <FilterTable meta={this.state.meta}
+                                 cars={this.state.cars} />
+                    <Pagination meta={this.state.meta}
+                                onPaginationChange={this.handlePaginationChange}></Pagination>
                 </header>
             </div>
         );
