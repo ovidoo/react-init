@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
+import { createStackNavigator, StackActions, NavigationActions } from 'react-navigation';
+
 import './App.css';
 import FilterTable from './components/FilterTable';
 import Pagination from './components/FilterTable/Pagination';
@@ -13,7 +14,7 @@ const DATA_URL = './api/v1/car/?format=json';
 * They even teach you how to think as a dev (o_O)
 * */
 
-class App extends Component {
+class HomeScreen extends Component {
 
     constructor() {
         super();
@@ -58,11 +59,24 @@ class App extends Component {
                 <header className="App-header">
                     <FilterTable meta={this.state.meta}
                                  cars={this.state.cars} />
+                    <button>try me</button>
                     <Pagination meta={this.state.meta}
                                 onPaginationChange={this.handlePaginationChange}></Pagination>
                 </header>
             </div>
         );
+    }
+}
+
+const RootStack = createStackNavigator({
+    Home: {
+        screen: HomeScreen
+    },
+});
+
+class App extends React.Component {
+    render() {
+        return <RootStack />;
     }
 }
 
