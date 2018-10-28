@@ -24,9 +24,9 @@ class HomeScreen extends Component {
     }
 
     fetchCars(direction) {
-        let data_url = PathProvider.getPath();
-        data_url += direction && this.state.meta[direction]
+        let data_url = direction && this.state.meta[direction]
             ? this.state.meta[direction] :  DATA_URL;
+        data_url = PathProvider.getPath(data_url);
 
         fetch(data_url)
             .then(response => {

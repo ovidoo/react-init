@@ -21,7 +21,7 @@ class ProductDetails extends Component {
 
     fetchCar(id) {
 
-        const uri = PathProvider.getPath() + DATA_URL + id;
+        const uri = PathProvider.getPath(DATA_URL + id);
 
         fetch(uri)
             .then(response => {
