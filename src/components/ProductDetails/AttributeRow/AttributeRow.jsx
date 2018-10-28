@@ -12,11 +12,14 @@ class AttributeRow extends Component {
         labels.forEach((label) => {
             rows.push(
                 <tr>
-                    <td>
+                    <td style={{textAlign: 'left'}}>
                         <label for={label}>{label}</label>
                     </td>
                     <td>
-                        <input type="text" id={label} value={this.props.car[label]} disabled={label === 'resource_uri'} />
+                        <input type="text" id={label}
+                               value={this.props.car[label]}
+                               style={{padding: '5px', marginTop: '10px', fontSize: '16px'}}
+                               disabled={label === 'resource_uri' || label === 'id'} />
                     </td>
                 </tr>
             );

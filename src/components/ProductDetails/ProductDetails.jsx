@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AttributeRow from "./AttributeRow";
 import PathProvider from '../../utils/PathProvider'
+import DataProvider from '../../utils/DataProvider'
 
 const DATA_URL = '../api/v1/car/';
 
@@ -20,21 +21,15 @@ class ProductDetails extends Component {
     }
 
     fetchCar(id) {
-
         const uri = PathProvider.getPath(DATA_URL + id);
 
-        fetch(uri)
-            .then(response => {
-                return response.json();
-            })
+        DataProvider.getData(uri)
             .then(res => {
                 const car = res;
                 this.setState({ car });
                 console.log(this.state.car);
-            })
-            .catch((error) => {
-                console.log('AHHH! An Error!', error);
-            });
+
+        });
     }
 
     render() {
@@ -42,15 +37,21 @@ class ProductDetails extends Component {
         return (
 
             <div>
-                <div>
-                    <button onClick={this.props.history.goBack}>back</button>
-                </div>
-                <form>
                     <table>
                         <AttributeRow keys={Object.keys(this.state.car)}
                                       car={this.state.car}></AttributeRow>
+                        <tfoot>
+                            <tr>
+                                <td>
+                                    <button style={{padding: '20px'}}
+                                            onClick={this.props.history.goBack}>Back</button>
+                                </td>
+                                <td>
+                                    <button style={{padding: '20px'}}>Change</button>
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
-                </form>
             </div>
 
         );
