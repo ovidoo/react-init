@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
-import { createStackNavigator, StackActions, NavigationActions } from 'react-navigation';
+import {
+    BrowserRouter as Router,
+    Route,
+    Link,
+    Switch,
+    Redirect
+} from "react-router-dom";
 
 import './App.css';
-import FilterTable from './components/FilterTable';
-import Pagination from './components/FilterTable/Pagination';
+import HomeScreen from './components/HomeScreen';
+import ProductDetails from './components/ProductDetails';
+
 
 const DATA_URL = './api/v1/car/?format=json';
 
@@ -14,70 +21,33 @@ const DATA_URL = './api/v1/car/?format=json';
 * They even teach you how to think as a dev (o_O)
 * */
 
-class HomeScreen extends Component {
-
-    constructor() {
-        super();
-        this.handlePaginationChange = this.handlePaginationChange.bind(this);
-        this.fetchData = this.fetchData.bind(this);
-    }
-
-    state = {
-        meta: {},
-        cars: []
-    };
-
-    componentDidMount() {
-        this.fetchData();
-    }
-
-    fetchData(direction) {
-        const data_url = direction && this.state.meta[direction] ? this.state.meta[direction] : DATA_URL;
-
-        fetch(data_url)
-            .then(response => {
-                return response.json();
-            })
-            .then(res => {
-                const meta = res.meta;
-                const cars = res.objects;
-                console.log(cars);
-                this.setState({ meta, cars });
-            })
-            .catch((error) => {
-                console.log('AHHH! An Error!', error);
-            });
-    }
-
-    handlePaginationChange(direction) {
-        this.fetchData(direction)
-    }
+class App extends Component {
 
     render() {
         return (
             <div className="App">
                 <header className="App-header">
-                    <FilterTable meta={this.state.meta}
-                                 cars={this.state.cars} />
-                    <button>try me</button>
-                    <Pagination meta={this.state.meta}
-                                onPaginationChange={this.handlePaginationChange}></Pagination>
+                    <Router>
+                        <Switch>
+                            <Route path="/" exact component={HomeScreen} />
+                            <Route path="/car/:id" component={ProductDetails} />
+                            <Route component={NoMatch} />
+                        </Switch>
+                    </Router>
                 </header>
             </div>
         );
     }
 }
 
-const RootStack = createStackNavigator({
-    Home: {
-        screen: HomeScreen
-    },
-});
-
-class App extends React.Component {
-    render() {
-        return <RootStack />;
-    }
+function NoMatch({ location }) {
+    return (
+        <div>
+            <h3>
+                No page  for address "<code>{location.pathname}</code>"
+            </h3>
+        </div>
+    );
 }
 
 export default App;

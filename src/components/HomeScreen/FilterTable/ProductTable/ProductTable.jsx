@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import ProductRow from './ProductRow';
+import React, {Component} from 'react';
+
+import ProductRow from './ProductRow/ProductRow';
 
 class ProductTable extends Component {
     render() {
@@ -15,7 +16,7 @@ class ProductTable extends Component {
             rows.push(
                 <ProductRow
                     car={car}
-                    key={car.name} />
+                    key={car.name}/>
             );
         });
 
@@ -27,7 +28,10 @@ class ProductTable extends Component {
                     <th>Horsepower</th>
                 </tr>
                 </thead>
-                <tbody>{rows}</tbody>
+
+                <tbody>
+                    {rows}
+                </tbody>
             </table>
         );
     }
