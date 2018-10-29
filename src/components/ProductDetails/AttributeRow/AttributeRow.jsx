@@ -2,24 +2,61 @@ import React, {Component} from "react";
 
 class AttributeRow extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    /*
+    * Update only with the changed details
+    * */
+    handleChange(event) {
+        const updateProperty = {[event.target.id]: event.target.value};
+        const tempUpdate = Object.assign(this.state.car, updateProperty);
+
+        this.setState({
+            car: tempUpdate
+        });
+        this.props.onCarDetailsChange(this.state.car);
+    }
+
+    componentDidMount() {
+        let tempObj = {};
+        this.props.keys.forEach(key => Object.defineProperty(tempObj, key, {value: ''}) );
+
+        this.setState({
+            value: tempObj,
+            car: this.props.car
+        })
+    }
+
+    /*
+    * Disable the id & uri field so it can't get updated
+    * */
+    isDisabled(label) {
+        return label === 'resource_uri' || label === 'id';
+    }
+
     render() {
         const labels = this.props.keys;
-        const car = this.props.car;
-
-
         const rows = [];
 
         labels.forEach((label) => {
+            const isDisabled = this.isDisabled(label);
+
             rows.push(
-                <tr>
+                <tr key={label}>
                     <td style={{textAlign: 'left'}}>
-                        <label for={label}>{label}</label>
+                        <label htmlFor={label}>{label}</label>
                     </td>
                     <td>
                         <input type="text" id={label}
-                               value={this.props.car[label]}
+                               value={this.state.value[label]}
+                               placeholder={this.props.car[label]}
+                               onChange={this.handleChange}
                                style={{padding: '5px', marginTop: '10px', fontSize: '16px'}}
-                               disabled={label === 'resource_uri' || label === 'id'} />
+                               disabled={isDisabled} />
                     </td>
                 </tr>
             );
