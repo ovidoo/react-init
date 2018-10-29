@@ -17,6 +17,7 @@ const DATA_URL = './api/v1/car/?format=json';
 /*
 * Since it's my first react app, I have done a bit of research to see how
 * the code should be structured. So I discovered there's nothing better than official docs.
+* The following code is based on the docs from https://reactjs.org/docs/thinking-in-react.html
 * Coming from Angular world, man! I envy that type of official documentation
 * They even teach you how to think as a dev (o_O)
 * */
